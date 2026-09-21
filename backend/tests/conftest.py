@@ -17,6 +17,8 @@ runner 是模块级 dict 缓存的任务、mock 的证据池是模块级列表�
 """
 from __future__ import annotations
 
+import os
+
 import pytest
 
 from app.core.config import get_settings
@@ -75,6 +77,42 @@ def _never_touch_production_db(tmp_path, monkeypatch):
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()
+
+
+@pytest.fixture(autouse=True)
+def _no_ambient_credentials(monkeypatch):
+    """把本机 `backend/.env` 里的 provider 凭据从进程环境里摘掉。
+
+    **这条夹具的存在是为了让"本机绿"和"CI 绿"是同一句话。**
+
+    `config.py` 在模块导入时做了一次 `load_dotenv(backend/.env)`，而凭据
+    是按 `<PROVIDER>_API_KEY` 的命名约定从 `os.environ` 动态查的
+    （不是 Settings 的字段，见 `config.py` 开头）。于是一台开发机上跑测试时，
+    环境里**一直有两把真气钥匙**；而 CI 上没有 `.env`，同一个用例看到的是
+    空字符串。同一份测试，两套环境，两个结果。
+
+    第一次量出来是发布前的一次克隆验证（问题 55）：把仓库克隆到一个
+    没有 `.env` 的目录再跑，`943 passed` 变成 `1 failed, 942 passed`。
+    失败的那条 `test_registry.py::test_both_configured_builds_a_fallback`
+    本地之所以绿，**仅仅因为这台机器上有 `.env`**。也就是说
+    **CI 的 pytest job 从第一次跑就会红**——而这个仓库的 CI 从来没有
+    执行过，所以它红了多久没人知道，文档里那句"CI 五个 job 全绿"
+    也就一直是推出来的。
+
+    为什么不做成"给那条用例补一个 setenv"就完事
+    ------------------------------------------
+    那修的是那一条，剩下九百多条仍然各自和环境有关，而这类故障的表现
+    方式是**只在别人机器上红**：写它的人怎么试都试不出来，CI 又没跑过。
+    所以做成默认干净：凭据必须被显式设进来，否则就是没有。
+    这与 `_never_touch_production_db` 是同一条理由——"要记得加"等于没有。
+
+    由 `tests/unit/test_env_isolation.py` 守着。**那条守卫的证伪只能在
+    本机做**（有 `.env` 时才红）：CI 上没有凭据，删掉这个夹具它照样绿。
+    这个不对称本身值得记住——它意味着"CI 绿"不能证明这条夹具还在。
+    """
+    for name in list(os.environ):
+        if name.endswith("_API_KEY"):
+            monkeypatch.delenv(name, raising=False)
 
 
 @pytest.fixture

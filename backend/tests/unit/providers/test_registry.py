@@ -110,7 +110,16 @@ def test_unconfigured_secondary_is_simply_unavailable(use_settings, monkeypatch)
     assert registry.get_llm().name == "mock"
 
 
-def test_both_configured_builds_a_fallback(use_settings):
+def test_both_configured_builds_a_fallback(use_settings, monkeypatch):
+    """两边都配好时，降级链真的被组起来。
+
+    `setenv` 那一行是后补的，补的理由值得记（问题 55）：这条用例早先
+    靠的是**这台机器上有 `backend/.env`**。于是它在开发机上一直绿，
+    在克隆出来的目录里红，而 CI（没有 `.env`）从第一次跑就会红。
+    用例要问的是"配了两个 provider 会不会组链"，与"这台机器的环境里
+    恰好有没有钥匙"无关——所以钥匙必须由用例自己给。
+    """
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "test-key-not-a-real-one")
     use_settings(llm_provider="mock", llm_fallback="deepseek")
     provider = registry.get_llm()
     assert provider.name == "mock>deepseek"
