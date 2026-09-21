@@ -66,6 +66,13 @@ search(SearchQuery(text=query, sites=("douyin.com",), freshness="month"))
 
 ## 快速开始
 
+### 0. 拿到代码
+
+```bash
+git clone https://github.com/yangyang-qaq/xm3-competitive-analysis.git
+cd xm3-competitive-analysis
+```
+
 ### 环境要求
 
 Python ≥ 3.11、Node ≥ 20。开发与验证都在 Windows（Git Bash 与 PowerShell 各一套脚本）。

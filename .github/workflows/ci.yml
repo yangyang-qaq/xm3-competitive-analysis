@@ -29,9 +29,26 @@
 # 3. `eval --gate` 用 mock，`eval --replay` 走真实适配器 + cassette 回放。
 # 少了这三条，"CI 跑绿"就变成一句需要花钱才能相信的话。
 #
-# 已知前提：本仓库还没有 `git init`（见 `修补文档.md` A5）。
-# 这个文件是给 init 之后用的，现在写下来是为了让"上 CI"这件事
-# 只剩一个 `git push`，而不是届时再想一遍该跑什么。
+# 这份文件在 2026-09-21 之前**一次都没有执行过**（本仓库当时还没
+# `git init`，见 `修补文档.md` A5），所以上面每一句"这个 job 量的是什么"
+# 在当时都是**推出来的，不是读出来的**。第一次 `git init` 之后补的第一件事
+# 不是 push，而是把五个 job 的每一步**在本机跑一遍**：
+#
+#     ruff / pytest -q                  → 945 passed, 6 deselected
+#     tsc -b --noEmit / oxlint / vitest → 17 文件 314 条全绿
+#     npm run build / playwright test   → 1 passed
+#     python -m eval.run_eval --gate    → 22 条，12 项契约全绿
+#     python -m eval.run_eval --replay  → 3 条，12 项契约全绿
+#
+# 这么做是因为"本地跑过"和"CI 上会绿"之间隔着两样东西，而这两样
+# 本机自测都盖不住：**换平台**（Windows → ubuntu）与**没有密钥**。
+# 后者真的抓到了问题——克隆到空目录跑 pytest 是 `1 failed, 942 passed`，
+# 因为有一条用例默默依赖了本机的 `backend/.env`（见问题记录 问题 55）。
+# 也就是说这个文件里的 pytest 那一步，本来会在**第一次运行时**就红。
+#
+# 仍然没被验证的是"换平台"那一半：本地那份确定性指标连跑三遍逐项相同，
+# 但在 ubuntu runner 上会不会因为并发搜索的完成顺序影响证据编号，
+# 只有真跑过一次才知道。判据写在下面 `eval-replay` 那一步的注释里。
 
 name: CI
 
