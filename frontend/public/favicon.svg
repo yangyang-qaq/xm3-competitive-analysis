@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 三层专家结构：顶部决策、中部战略、底部分头执行 -->
+  <g fill="none" stroke="#4f96d8" stroke-width="1.6" stroke-linecap="round">
+    <path d="M16 9v4M16 13l-7 5M16 13l7 5" opacity=".55" />
+    <path d="M9 19v3M16 19v3M23 19v3" opacity=".35" />
+  </g>
+  <g>
+    <circle cx="16" cy="6" r="3.2" fill="#8677d9" />
+    <circle cx="9" cy="21" r="2.6" fill="#4f96d8" />
+    <circle cx="16" cy="21" r="2.6" fill="#4f96d8" />
+    <circle cx="23" cy="21" r="2.6" fill="#4f96d8" />
+    <circle cx="9" cy="27" r="2" fill="#35a883" />
+    <circle cx="16" cy="27" r="2" fill="#35a883" />
+    <circle cx="23" cy="27" r="2" fill="#35a883" />
+  </g>
+</svg>

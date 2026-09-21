@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   设计令牌
+   底调是「案头的研究台」：暖米色的纸面 + 白卡片 + 鼠尾草绿的强调色。
+   颜色只承担语义，不承担装饰——`danger` 在哪儿，哪儿就是出错了。
+
+   **从深色换到浅色时，最容易坏掉的不是色值而是假设。** 比如
+   `text-canvas` 原本是"在强调色块上写字"（深色底 → 近黑文字），
+   浅色下 canvas 变成近白，这个组合仍然成立；但如果哪天有人
+   拿 `text-canvas` 往白卡片上写字，就会得到一片空白。
+   所以下面每个令牌都标了它**被当成什么用**。
+   ============================================================ */
+@theme {
+  /* 字族：中文优先回落到各平台的系统字体 */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  --font-mono:
+    ui-monospace, 'SFMono-Regular', 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+
+  /* 层级底色：越靠前越靠近用户。
+     `canvas` 兼作**强调色块上的文字色**（`bg-brand text-canvas`），
+     所以它必须和 `brand` 有足够对比——换 brand 时两件事一起看。 */
+  --color-canvas: #f6f2ea;
+  --color-panel: #fffdf9;
+  --color-raised: #efe9de;
+  --color-overlay: #fffdf9;
+
+  /* 描边 */
+  --color-line: #e7e0d2;
+  --color-line-strong: #d5cbb7;
+
+  /* 文字三级 */
+  --color-fg: #2f2c26;
+  --color-fg-muted: #6d675b;
+  --color-fg-faint: #9b9488;
+
+  /* 品牌与状态。
+     浅色底上的强调色要比深色底上的**更深**才对得上对比度：
+     `brand` 既是按钮底色也是正文里的链接色，两头都得看得清。
+     半透明浅底直接用修饰符写，`bg-brand/10` 即可。 */
+  --color-brand: #5f8467;
+  --color-ok: #3f8a63;
+  --color-warn: #a97a2c;
+  --color-danger: #b05148;
+
+  /* 专家层级：L3 决策 / L2 战略 / L1 执行 */
+  --color-l3: #6a5cae;
+  --color-l2: #3d7cae;
+  --color-l1: #3f8a63;
+
+  /* 卡片。深色主题靠明度差分层，浅色主题没有明度差可用，
+     分层全靠**阴影和圆角**——少了这两个，白卡片贴在米色底上
+     会糊成一片。 */
+  --radius-card: 0.875rem;
+  --shadow-card: 0 1px 2px rgb(74 63 42 / 0.04), 0 10px 28px -16px rgb(74 63 42 / 0.18);
+  --shadow-pop: 0 18px 48px -16px rgb(74 63 42 / 0.28);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 细滚动条：面板多，粗滚动条会把界面切碎 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 1px;
+  }
+
+  /* 选中态。浏览器默认的蓝底白字在暖色调里很扎眼，
+     而报告页和证据流里**选中文字是常态动作**（复制证据去核对）。 */
+  ::selection {
+    background: var(--color-brand);
+    color: var(--color-canvas);
+  }
+}
+
+@layer utilities {
+  /* 数字对齐：指标面板里一列数字必须能上下对齐 */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
