@@ -1,0 +1,1453 @@
+{
+  "version": 1,
+  "generatorVersion": 1,
+  "count": 48,
+  "distribution": {
+    "L3·决策": 3,
+    "L2·战略": 9,
+    "L1·职能": 12,
+    "L1·行业": 24
+  },
+  "experts": [
+    {
+      "id": "L3-001",
+      "level": "L3",
+      "levelLabel": "决策层",
+      "group": "决策",
+      "name": "沈衡",
+      "roleTitle": "调研总监",
+      "oneLiner": "定调研边界，决定这份报告回答哪个问题、不回答哪个",
+      "skills": [
+        "需求拆解",
+        "范围界定",
+        "结论把关"
+      ],
+      "knowledgeBase": "调研方法论",
+      "knowledgeTags": [
+        "调研方法论",
+        "需求澄清",
+        "结论收敛"
+      ],
+      "avatarColor": "#5D7092",
+      "badgeColor": "#E8684A",
+      "domainIcon": "compass",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L3-002",
+      "level": "L3",
+      "levelLabel": "决策层",
+      "group": "决策",
+      "name": "陆远",
+      "roleTitle": "首席分析官",
+      "oneLiner": "把零散证据收敛成有立场的判断，并对判断负责",
+      "skills": [
+        "证据权衡",
+        "竞争格局",
+        "战略判断"
+      ],
+      "knowledgeBase": "竞争战略",
+      "knowledgeTags": [
+        "竞争战略",
+        "产业分析",
+        "判断校准"
+      ],
+      "avatarColor": "#6DC8EC",
+      "badgeColor": "#E8684A",
+      "domainIcon": "compass",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L3-003",
+      "level": "L3",
+      "levelLabel": "决策层",
+      "group": "决策",
+      "name": "纪岚",
+      "roleTitle": "质检总监",
+      "oneLiner": "对报告行使否决权：证据不足就不放行，宁可返工",
+      "skills": [
+        "质量审计",
+        "反证思维",
+        "合规审查"
+      ],
+      "knowledgeBase": "证据标准",
+      "knowledgeTags": [
+        "证据标准",
+        "逻辑谬误",
+        "引用规范"
+      ],
+      "avatarColor": "#6DC8EC",
+      "badgeColor": "#E8684A",
+      "domainIcon": "compass",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-001",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "方叙",
+      "roleTitle": "竞争战略分析师",
+      "oneLiner": "拆解竞品的战略选择：它在哪些地方主动放弃",
+      "skills": [
+        "功能对比",
+        "差异化定位",
+        "护城河识别"
+      ],
+      "knowledgeBase": "竞争战略",
+      "knowledgeTags": [
+        "竞争战略",
+        "波特五力",
+        "定位理论"
+      ],
+      "avatarColor": "#269A99",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-002",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "沈律",
+      "roleTitle": "定价与商业模式分析师",
+      "oneLiner": "把定价页读成商业模式，而不是一张价目表",
+      "skills": [
+        "定价结构",
+        "计费模型",
+        "单位经济"
+      ],
+      "knowledgeBase": "SaaS 定价",
+      "knowledgeTags": [
+        "SaaS 定价",
+        "价格歧视",
+        "LTV/CAC"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-003",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "温以宁",
+      "roleTitle": "用户研究分析师",
+      "oneLiner": "区分用户说的和用户做的，只采信后者",
+      "skills": [
+        "画像构建",
+        "需求分层",
+        "迁移成本"
+      ],
+      "knowledgeBase": "JTBD",
+      "knowledgeTags": [
+        "JTBD",
+        "用户访谈",
+        "行为分析"
+      ],
+      "avatarColor": "#269A99",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-004",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "贺明",
+      "roleTitle": "技术架构分析师",
+      "oneLiner": "从公开技术信息推断产品的能力边界与迭代速度",
+      "skills": [
+        "技术选型",
+        "架构推断",
+        "集成能力"
+      ],
+      "knowledgeBase": "系统架构",
+      "knowledgeTags": [
+        "系统架构",
+        "API 设计",
+        "技术债"
+      ],
+      "avatarColor": "#9270CA",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-005",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "柯遥",
+      "roleTitle": "增长与获客分析师",
+      "oneLiner": "把增长拆成可归因的环节，而不是复述融资新闻",
+      "skills": [
+        "漏斗拆解",
+        "获客成本",
+        "增长实验"
+      ],
+      "knowledgeBase": "增长模型",
+      "knowledgeTags": [
+        "增长模型",
+        "漏斗分析",
+        "投放归因"
+      ],
+      "avatarColor": "#F6BD16",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-006",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "邢舟",
+      "roleTitle": "渠道与生态分析师",
+      "oneLiner": "看一个产品靠谁的渠道活着，以及这种依赖有多脆",
+      "skills": [
+        "渠道结构",
+        "生态位",
+        "依赖度评估"
+      ],
+      "knowledgeBase": "渠道分析",
+      "knowledgeTags": [
+        "渠道管理",
+        "平台生态",
+        "分销体系"
+      ],
+      "avatarColor": "#269A99",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-007",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "宋允",
+      "roleTitle": "品牌与传播分析师",
+      "oneLiner": "区分品牌想说的话和它实际被记住的话",
+      "skills": [
+        "品牌定位",
+        "传播路径",
+        "心智占位"
+      ],
+      "knowledgeBase": "品牌理论",
+      "knowledgeTags": [
+        "品牌定位",
+        "内容传播",
+        "用户心智"
+      ],
+      "avatarColor": "#F6BD16",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-008",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "卓岸",
+      "roleTitle": "供应链与交付分析师",
+      "oneLiner": "从交付周期与产能约束反推一家公司的真实上限",
+      "skills": [
+        "交付周期",
+        "产能约束",
+        "成本结构"
+      ],
+      "knowledgeBase": "供应链管理",
+      "knowledgeTags": [
+        "供应链",
+        "产能规划",
+        "交付能力"
+      ],
+      "avatarColor": "#6DC8EC",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L2-009",
+      "level": "L2",
+      "levelLabel": "战略层",
+      "group": "战略",
+      "name": "邵铭",
+      "roleTitle": "财务与资本市场分析师",
+      "oneLiner": "用现金流和融资节奏判断它能撑多久、急不急",
+      "skills": [
+        "财务建模",
+        "融资节奏",
+        "现金流"
+      ],
+      "knowledgeBase": "公司金融",
+      "knowledgeTags": [
+        "财务报表",
+        "估值方法",
+        "现金流"
+      ],
+      "avatarColor": "#FF9D4D",
+      "badgeColor": "#F6BD16",
+      "domainIcon": "map",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-001",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "池越",
+      "roleTitle": "AI 编程工具行业专家",
+      "oneLiner": "熟悉 AI 编程赛道的玩家、能力边界与真实使用反馈",
+      "skills": [
+        "竞品横评",
+        "能力评测",
+        "成本测算"
+      ],
+      "knowledgeBase": "AI 编程",
+      "knowledgeTags": [
+        "AI 编程",
+        "代码生成",
+        "开发者工具"
+      ],
+      "avatarColor": "#E8684A",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-002",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "苏澜",
+      "roleTitle": "知识管理行业专家",
+      "oneLiner": "熟悉笔记与知识管理产品的功能演进与用户迁移路径",
+      "skills": [
+        "功能拆解",
+        "协作能力",
+        "数据迁移"
+      ],
+      "knowledgeBase": "知识管理",
+      "knowledgeTags": [
+        "知识管理",
+        "笔记工具",
+        "协作软件"
+      ],
+      "avatarColor": "#E8684A",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-003",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "郑野",
+      "roleTitle": "新能源汽车行业专家",
+      "oneLiner": "熟悉新能源车企的产品线、渠道与交付节奏",
+      "skills": [
+        "车型对比",
+        "渠道分析",
+        "交付数据"
+      ],
+      "knowledgeBase": "新能源汽车",
+      "knowledgeTags": [
+        "新能源汽车",
+        "智能座舱",
+        "充电网络"
+      ],
+      "avatarColor": "#5D7092",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-004",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "林澈",
+      "roleTitle": "跨境电商行业专家",
+      "oneLiner": "熟悉跨境平台的规则变化、卖家生态与合规风险",
+      "skills": [
+        "平台对比",
+        "规则解读",
+        "卖家调研"
+      ],
+      "knowledgeBase": "跨境电商",
+      "knowledgeTags": [
+        "跨境电商",
+        "平台政策",
+        "供应链"
+      ],
+      "avatarColor": "#269A99",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-005",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "骆其",
+      "roleTitle": "企业协同软件行业专家",
+      "oneLiner": "熟悉协同工具的功能竞速、席位定价与替换阻力",
+      "skills": [
+        "功能横评",
+        "席位定价",
+        "迁移阻力"
+      ],
+      "knowledgeBase": "协同办公",
+      "knowledgeTags": [
+        "协同办公",
+        "团队工具",
+        "席位计费"
+      ],
+      "avatarColor": "#E8684A",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-006",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "覃屿",
+      "roleTitle": "云计算行业专家",
+      "oneLiner": "从实例规格与计费单位反推云厂商的补贴方向",
+      "skills": [
+        "规格对比",
+        "计费拆解",
+        "区域覆盖"
+      ],
+      "knowledgeBase": "云计算",
+      "knowledgeTags": [
+        "云计算",
+        "基础设施",
+        "计费模型"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-007",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "关棠",
+      "roleTitle": "智能手机行业专家",
+      "oneLiner": "熟悉机型迭代节奏、渠道分层与首销口碑走势",
+      "skills": [
+        "机型对比",
+        "渠道分层",
+        "口碑追踪"
+      ],
+      "knowledgeBase": "消费电子",
+      "knowledgeTags": [
+        "智能手机",
+        "渠道分层",
+        "首销口碑"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-008",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "艾禾",
+      "roleTitle": "智能家居行业专家",
+      "oneLiner": "熟悉互联协议之争与生态封闭带来的用户取舍",
+      "skills": [
+        "协议对比",
+        "生态封闭度",
+        "联动能力"
+      ],
+      "knowledgeBase": "智能家居",
+      "knowledgeTags": [
+        "智能家居",
+        "互联协议",
+        "生态整合"
+      ],
+      "avatarColor": "#FF99C3",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-009",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "楼砚",
+      "roleTitle": "电商平台行业专家",
+      "oneLiner": "熟悉平台规则、商家结构与流量分配的此消彼长",
+      "skills": [
+        "规则解读",
+        "商家结构",
+        "流量分配"
+      ],
+      "knowledgeBase": "电商平台",
+      "knowledgeTags": [
+        "电商平台",
+        "流量分配",
+        "商家生态"
+      ],
+      "avatarColor": "#6DC8EC",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-010",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "卫岐",
+      "roleTitle": "本地生活行业专家",
+      "oneLiner": "熟悉补贴战的实际单位经济与地推半径的硬约束",
+      "skills": [
+        "补贴测算",
+        "单位经济",
+        "地推覆盖"
+      ],
+      "knowledgeBase": "本地生活",
+      "knowledgeTags": [
+        "本地生活",
+        "补贴战",
+        "单位经济"
+      ],
+      "avatarColor": "#269A99",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-011",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "江柠",
+      "roleTitle": "在线教育行业专家",
+      "oneLiner": "熟悉课程供给结构、完课率与续费驱动的产品设计",
+      "skills": [
+        "供给结构",
+        "完课率",
+        "续费分析"
+      ],
+      "knowledgeBase": "在线教育",
+      "knowledgeTags": [
+        "在线教育",
+        "课程供给",
+        "续费驱动"
+      ],
+      "avatarColor": "#5B8FF9",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-012",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "闵峥",
+      "roleTitle": "短视频与直播行业专家",
+      "oneLiner": "熟悉内容分发机制、创作者激励与商业化节奏",
+      "skills": [
+        "分发机制",
+        "创作者生态",
+        "商业化"
+      ],
+      "knowledgeBase": "内容平台",
+      "knowledgeTags": [
+        "短视频",
+        "直播电商",
+        "内容分发"
+      ],
+      "avatarColor": "#9270CA",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-013",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "顾亭",
+      "roleTitle": "游戏行业专家",
+      "oneLiner": "熟悉玩法留存曲线、付费点设计与发行节奏约束",
+      "skills": [
+        "留存曲线",
+        "付费设计",
+        "发行节奏"
+      ],
+      "knowledgeBase": "游戏行业",
+      "knowledgeTags": [
+        "游戏",
+        "留存分析",
+        "付费设计"
+      ],
+      "avatarColor": "#FF99C3",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-014",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "崔珉",
+      "roleTitle": "金融科技行业专家",
+      "oneLiner": "熟悉牌照边界、风控成本与合规对产品形态的约束",
+      "skills": [
+        "牌照核查",
+        "风控成本",
+        "合规约束"
+      ],
+      "knowledgeBase": "金融科技",
+      "knowledgeTags": [
+        "金融科技",
+        "牌照合规",
+        "风控"
+      ],
+      "avatarColor": "#E8684A",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-015",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "时雨",
+      "roleTitle": "企业服务行业专家",
+      "oneLiner": "熟悉销售漏斗类产品的客单价分档与实施成本",
+      "skills": [
+        "客单价分档",
+        "实施成本",
+        "续约率"
+      ],
+      "knowledgeBase": "企业服务",
+      "knowledgeTags": [
+        "企业服务",
+        "CRM",
+        "客单价"
+      ],
+      "avatarColor": "#9270CA",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-016",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "谢岑",
+      "roleTitle": "数据库与中间件行业专家",
+      "oneLiner": "熟悉性能基准的真实口径与迁移一次的全部代价",
+      "skills": [
+        "基准测试",
+        "迁移代价",
+        "运维成本"
+      ],
+      "knowledgeBase": "数据基础设施",
+      "knowledgeTags": [
+        "数据库",
+        "中间件",
+        "性能基准"
+      ],
+      "avatarColor": "#F6BD16",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-017",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "霍桉",
+      "roleTitle": "信息安全行业专家",
+      "oneLiner": "熟悉合规驱动的采购逻辑与安全能力的可验证边界",
+      "skills": [
+        "采购逻辑",
+        "能力验证",
+        "合规要求"
+      ],
+      "knowledgeBase": "信息安全",
+      "knowledgeTags": [
+        "信息安全",
+        "合规采购",
+        "安全能力"
+      ],
+      "avatarColor": "#269A99",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-018",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "何晏",
+      "roleTitle": "医疗健康行业专家",
+      "oneLiner": "熟悉监管路径对产品上市节奏的决定作用",
+      "skills": [
+        "监管路径",
+        "上市节奏",
+        "资质核查"
+      ],
+      "knowledgeBase": "医疗健康",
+      "knowledgeTags": [
+        "医疗健康",
+        "监管路径",
+        "资质审批"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-019",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "童漠",
+      "roleTitle": "物流与供应链行业专家",
+      "oneLiner": "熟悉履约成本结构，以及时效承诺背后的真实代价",
+      "skills": [
+        "履约成本",
+        "时效承诺",
+        "网络覆盖"
+      ],
+      "knowledgeBase": "物流",
+      "knowledgeTags": [
+        "物流",
+        "履约成本",
+        "时效"
+      ],
+      "avatarColor": "#9270CA",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-020",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "冯朔",
+      "roleTitle": "出行与网约车行业专家",
+      "oneLiner": "熟悉运力供给的弹性边界与合规对规模的影响",
+      "skills": [
+        "运力弹性",
+        "合规影响",
+        "补贴测算"
+      ],
+      "knowledgeBase": "出行服务",
+      "knowledgeTags": [
+        "网约车",
+        "运力供给",
+        "城市合规"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-021",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "桑乔",
+      "roleTitle": "芯片与半导体行业专家",
+      "oneLiner": "熟悉制程节点、产能周期与供应链的卡点位置",
+      "skills": [
+        "制程对比",
+        "产能周期",
+        "卡点识别"
+      ],
+      "knowledgeBase": "半导体",
+      "knowledgeTags": [
+        "半导体",
+        "制程",
+        "产能周期"
+      ],
+      "avatarColor": "#E8684A",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-022",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "阮泠",
+      "roleTitle": "机器人行业专家",
+      "oneLiner": "熟悉本体成本拆解与场景落地之间的真实距离",
+      "skills": [
+        "成本拆解",
+        "场景适配",
+        "落地节奏"
+      ],
+      "knowledgeBase": "机器人",
+      "knowledgeTags": [
+        "机器人",
+        "成本拆解",
+        "场景落地"
+      ],
+      "avatarColor": "#FF99C3",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-023",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "焦桐",
+      "roleTitle": "消费电子行业专家",
+      "oneLiner": "熟悉硬件毛利结构、渠道返点与换代周期",
+      "skills": [
+        "毛利结构",
+        "渠道返点",
+        "换代周期"
+      ],
+      "knowledgeBase": "消费电子",
+      "knowledgeTags": [
+        "消费电子",
+        "硬件毛利",
+        "换代周期"
+      ],
+      "avatarColor": "#6DC8EC",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-024",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "行业",
+      "name": "薛屹",
+      "roleTitle": "企业出海行业专家",
+      "oneLiner": "熟悉区域市场的准入差异与本地化的真实成本",
+      "skills": [
+        "准入差异",
+        "本地化成本",
+        "区域合规"
+      ],
+      "knowledgeBase": "出海",
+      "knowledgeTags": [
+        "出海",
+        "区域市场",
+        "本地化"
+      ],
+      "avatarColor": "#F6BD16",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "cube",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-025",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "白鹭",
+      "roleTitle": "舆情分析师",
+      "oneLiner": "在多个平台上采集并区分真实口碑与营销噪声",
+      "skills": [
+        "多平台采集",
+        "情感判别",
+        "噪声识别"
+      ],
+      "knowledgeBase": "舆情监测",
+      "knowledgeTags": [
+        "舆情监测",
+        "噪声识别",
+        "口碑分析"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-026",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "程野",
+      "roleTitle": "数据采集工程师",
+      "oneLiner": "设计搜索角度，保证证据的来源多样性与可追溯",
+      "skills": [
+        "搜索策略",
+        "去重",
+        "来源分类"
+      ],
+      "knowledgeBase": "检索技巧",
+      "knowledgeTags": [
+        "检索技巧",
+        "来源分类",
+        "信息采集"
+      ],
+      "avatarColor": "#FF99C3",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-027",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "闻笛",
+      "roleTitle": "财报与公开信息解读",
+      "oneLiner": "从财报、招股书、专利等公开材料里读出未明说的信号",
+      "skills": [
+        "财报解读",
+        "专利检索",
+        "公开信息"
+      ],
+      "knowledgeBase": "公开信息分析",
+      "knowledgeTags": [
+        "财务分析",
+        "专利分析",
+        "工商信息"
+      ],
+      "avatarColor": "#5D7092",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-028",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "裴青",
+      "roleTitle": "渠道与价格监测",
+      "oneLiner": "核对官方口径与实际售价之间的差额",
+      "skills": [
+        "价格核验",
+        "促销追踪",
+        "渠道分层"
+      ],
+      "knowledgeBase": "价格监测",
+      "knowledgeTags": [
+        "价格监测",
+        "渠道管理",
+        "促销机制"
+      ],
+      "avatarColor": "#F6BD16",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-029",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "柏川",
+      "roleTitle": "专利与技术情报分析师",
+      "oneLiner": "从专利布局读出还没发布的路线图",
+      "skills": [
+        "专利检索",
+        "技术路线",
+        "布局分析"
+      ],
+      "knowledgeBase": "专利分析",
+      "knowledgeTags": [
+        "专利检索",
+        "技术情报",
+        "技术路线"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-030",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "韦迟",
+      "roleTitle": "招聘信号分析师",
+      "oneLiner": "把招聘岗位当成产品路线的提前泄密来读",
+      "skills": [
+        "岗位挖掘",
+        "扩张推断",
+        "技术栈识别"
+      ],
+      "knowledgeBase": "组织信号",
+      "knowledgeTags": [
+        "招聘分析",
+        "组织架构",
+        "扩张信号"
+      ],
+      "avatarColor": "#FF99C3",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-031",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "尹恪",
+      "roleTitle": "合规与法律分析师",
+      "oneLiner": "区分监管的硬约束和行业的自我约束",
+      "skills": [
+        "合规审查",
+        "资质核查",
+        "条款解读"
+      ],
+      "knowledgeBase": "合规监管",
+      "knowledgeTags": [
+        "合规",
+        "法律风险",
+        "资质审查"
+      ],
+      "avatarColor": "#5B8FF9",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-032",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "邬蓝",
+      "roleTitle": "数据可视化工程师",
+      "oneLiner": "让每一个图形都能回答\"这些数字是从哪来的\"",
+      "skills": [
+        "图表设计",
+        "数据映射",
+        "视觉编码"
+      ],
+      "knowledgeBase": "可视化理论",
+      "knowledgeTags": [
+        "数据可视化",
+        "图表设计",
+        "信息设计"
+      ],
+      "avatarColor": "#E8684A",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-033",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "梅昀",
+      "roleTitle": "数据质量校验",
+      "oneLiner": "先证明数据本身是干净的，再谈它说明了什么",
+      "skills": [
+        "异常检测",
+        "去重校验",
+        "口径对齐"
+      ],
+      "knowledgeBase": "数据治理",
+      "knowledgeTags": [
+        "数据质量",
+        "口径一致",
+        "数据清洗"
+      ],
+      "avatarColor": "#F6BD16",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-034",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "蒋渡",
+      "roleTitle": "用户评论挖掘",
+      "oneLiner": "从一万条评论里找出那三十条真正改变了判断的",
+      "skills": [
+        "评论聚类",
+        "痛点抽取",
+        "反例识别"
+      ],
+      "knowledgeBase": "文本挖掘",
+      "knowledgeTags": [
+        "评论分析",
+        "文本聚类",
+        "痛点识别"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-035",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "申晗",
+      "roleTitle": "竞品档案管理员",
+      "oneLiner": "保证每一份材料都能追溯到它被采集的那一天",
+      "skills": [
+        "档案编目",
+        "版本追踪",
+        "来源溯源"
+      ],
+      "knowledgeBase": "信息管理",
+      "knowledgeTags": [
+        "档案管理",
+        "版本追溯",
+        "来源标注"
+      ],
+      "avatarColor": "#5AD8A6",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    },
+    {
+      "id": "L1-036",
+      "level": "L1",
+      "levelLabel": "执行层",
+      "group": "职能",
+      "name": "昌祁",
+      "roleTitle": "海外情报分析师",
+      "oneLiner": "读原文而不是读翻译，转述会让信息失真",
+      "skills": [
+        "多语种检索",
+        "区域差异",
+        "原文核验"
+      ],
+      "knowledgeBase": "海外市场",
+      "knowledgeTags": [
+        "海外市场",
+        "多语言",
+        "区域情报"
+      ],
+      "avatarColor": "#9270CA",
+      "badgeColor": "#5B8FF9",
+      "domainIcon": "wrench",
+      "stats": {
+        "tasks": 0,
+        "thoughts": 0,
+        "evidences": 0,
+        "costUsd": 0.0,
+        "source": "seed"
+      }
+    }
+  ]
+}
