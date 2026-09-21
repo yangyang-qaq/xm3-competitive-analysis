@@ -1,0 +1,155 @@
+{
+  "recordedAt": "2026-09-19T12:03:16+0800",
+  "golden": "golden.yaml",
+  "cassetteDir": "D:\\Dekcop\\xiangmu\\xm3\\backend\\tests\\fixtures\\cassettes",
+  "providers": {
+    "llm": "deepseek",
+    "search": "bocha",
+    "fetch": "http"
+  },
+  "models": {
+    "core": "deepseek-flash",
+    "aux": "deepseek-flash",
+    "fast": "deepseek-flash"
+  },
+  "estimate": {
+    "basedOn": {
+      "mode": "quick",
+      "llm_calls": 13,
+      "prompt_tokens": 76332,
+      "completion_tokens": 12135,
+      "cost_usd": 0.01836
+    },
+    "costUsd": 0.092
+  },
+  "measured": {
+    "queries": 5,
+    "ok": 5,
+    "llmCalls": 90,
+    "promptTokens": 571355,
+    "completionTokens": 101236,
+    "cachedPromptTokens": 80510,
+    "costUsd": 0.132614,
+    "wallSeconds": 1.2,
+    "freshRecords": {
+      "fetch.http.jsonl": 0,
+      "llm.deepseek.jsonl": 0,
+      "search.bocha.jsonl": 0
+    },
+    "costUsdNote": "costUsd 是整条流水线的用量（含回放的调用），不是本次扣费；本次真正联网新录的条数见 freshRecords"
+  },
+  "aborted": "",
+  "queries": [
+    {
+      "name": "notion-vs-obsidian",
+      "query": "对比 Notion 与 Obsidian",
+      "mode": "quick",
+      "tags": [
+        "知识管理",
+        "海外产品"
+      ],
+      "taskId": "TK-678a76cf09aa",
+      "reportId": "RP-6cdd6cc5ce49",
+      "ok": true,
+      "error": "",
+      "wallMs": 530,
+      "llmCalls": 19,
+      "promptTokens": 110389,
+      "completionTokens": 20777,
+      "cachedPromptTokens": 20734,
+      "costUsd": 0.025591,
+      "problems": [],
+      "degradedCount": 4
+    },
+    {
+      "name": "dji-mini4-vs-autel-evo",
+      "query": "对比 大疆 Mini 4 Pro 与 Autel EVO Lite+",
+      "mode": "quick",
+      "tags": [
+        "无人机",
+        "参数型产品"
+      ],
+      "taskId": "TK-51ef4daa0fc5",
+      "reportId": "RP-506e183fd21f",
+      "ok": true,
+      "error": "",
+      "wallMs": 78,
+      "llmCalls": 13,
+      "promptTokens": 82259,
+      "completionTokens": 10529,
+      "cachedPromptTokens": 896,
+      "costUsd": 0.01825,
+      "problems": [],
+      "degradedCount": 2
+    },
+    {
+      "name": "youzan-vs-weimob",
+      "query": "对比 有赞 与 微盟",
+      "mode": "quick",
+      "tags": [
+        "SaaS",
+        "港股上市"
+      ],
+      "taskId": "TK-6ba1e012b51a",
+      "reportId": "RP-b41dd3b5dc08",
+      "ok": true,
+      "error": "",
+      "wallMs": 187,
+      "llmCalls": 18,
+      "promptTokens": 117813,
+      "completionTokens": 19472,
+      "cachedPromptTokens": 17152,
+      "costUsd": 0.026436,
+      "problems": [],
+      "degradedCount": 3
+    },
+    {
+      "name": "dewu-vs-shihuo",
+      "query": "对比 得物 与 识货",
+      "mode": "quick",
+      "tags": [
+        "潮流电商",
+        "UGC 为主"
+      ],
+      "taskId": "TK-c5365e833931",
+      "reportId": "RP-91352666a646",
+      "ok": true,
+      "error": "",
+      "wallMs": 140,
+      "llmCalls": 20,
+      "promptTokens": 126955,
+      "completionTokens": 23608,
+      "cachedPromptTokens": 24576,
+      "costUsd": 0.029157,
+      "problems": [],
+      "degradedCount": 4
+    },
+    {
+      "name": "vague-coffee-market",
+      "query": "帮我看看现在的咖啡市场",
+      "mode": "quick",
+      "tags": [
+        "澄清",
+        "故意含糊"
+      ],
+      "taskId": "TK-503ba49c56a4",
+      "reportId": "RP-c4c8e8e5882d",
+      "ok": true,
+      "error": "",
+      "wallMs": 140,
+      "llmCalls": 20,
+      "promptTokens": 133939,
+      "completionTokens": 26850,
+      "cachedPromptTokens": 17152,
+      "costUsd": 0.03318,
+      "problems": [],
+      "degradedCount": 5
+    }
+  ],
+  "cassetteTotals": {
+    "fetch.http.jsonl": 68,
+    "llm.deepseek.jsonl": 98,
+    "search.bocha.jsonl": 143
+  },
+  "cassetteTotalsNote": "上面 measured 描述的是**这一次运行**；这里描述的是 cassette 里**现在合计**有多少条记录"
+}
