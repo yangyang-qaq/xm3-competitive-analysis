@@ -1,0 +1,246 @@
+# CI 门禁
+#
+# 五件事分开跑，因为它们**失败的含义不同**，混成一个 job 之后
+# 一个红叉说不清是哪一类问题：
+#
+# - `backend`：单元 / 集成 / 端到端（cassette），离线、零 API 花费
+# - `frontend`：类型、lint、单元测试、真浏览器冒烟（Playwright）
+# - `eval`：黄金集闸门（mock provider，零花费）——量的是"没坏"，不是"好"
+# - `eval-replay`：黄金集回放（真实录制、零花费）——量的是真实产出合不合契约
+# - `docs`：流水线顺序与架构文档一致（`check_docs_order`）
+#
+# 为什么 `eval` 和 `eval-replay` 要分开
+# -------------------------------------
+# 两个都是零花费、都跑同一份 `run_pipeline`，但红了的含义完全不同：
+#
+# - mock 红了 = **代码结构性退步**。mock 的三个 provider 都不看 query，
+#   它检查的是"证据流、事件序、返工循环还在不在"，与模型质量无关。
+# - replay 红了 = **真实模型的产出违反了契约**（或录制过期了）。
+#   它跑的是真 DeepSeek/博查的录制输出，所以能抓出 mock 抓不到的：
+#   模型这次把不存在的 evidence_id 引用了、把编造的专家 id 写进了队伍、
+#   正文长度掉到阈值以下。
+#
+# 合成一个 job 的代价是：一个红叉，你得点进去看是哪个 provider 失败——
+# 而那正是这个文件开头要避免的事。
+#
+# **CI 里没有任何一步会联网调 API。** 三条保证：
+# 1. `pytest` 默认排除 `-m live`；
+# 2. cassette 缺录制**直接抛异常**，绝不静默联网（`app/providers/cassette.py`）；
+# 3. `eval --gate` 用 mock，`eval --replay` 走真实适配器 + cassette 回放。
+# 少了这三条，"CI 跑绿"就变成一句需要花钱才能相信的话。
+#
+# 已知前提：本仓库还没有 `git init`（见 `修补文档.md` A5）。
+# 这个文件是给 init 之后用的，现在写下来是为了让"上 CI"这件事
+# 只剩一个 `git push`，而不是届时再想一遍该跑什么。
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 同一分支的新推送取消上一次还在跑的：等一个已经过时的结果没有意义。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "22"
+  # 让 Python 的输出不做缓冲，日志能实时看到（runner 上卡住时能看出卡在哪一步）。
+  PYTHONUNBUFFERED: "1"
+  PYTHONIOENCODING: "utf-8"
+
+jobs:
+  backend:
+    name: 后端（pytest · ruff）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - name: 装依赖
+        run: pip install -e "backend[dev]"
+
+      - name: ruff
+        working-directory: backend
+        run: ruff check app tests scripts
+
+      - name: pytest（排除 live）
+        working-directory: backend
+        run: pytest -q
+
+  frontend:
+    name: 前端（tsc · oxlint · vitest）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 装依赖
+        working-directory: frontend
+        run: npm ci
+
+      - name: 类型
+        working-directory: frontend
+        run: npm run typecheck
+
+      - name: lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: 单元测试
+        working-directory: frontend
+        run: npm test
+
+      - name: 构建
+        working-directory: frontend
+        run: npm run build
+
+      - name: 装 chromium
+        # 只装 chromium：这个套件只有一条用例，也只跑 chromium。
+        # `--with-deps` 装上它要的系统库（runner 上没有）。
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: 冒烟（真浏览器打开报告页）
+        # 这条是**唯一**能证明图真的画出来了的测试：jsdom 没有 canvas，
+        # 所以报告页那四张 ECharts 在单测层面结构上不可见——
+        # 而"图表整块没接线"这个缺陷真的发生过（见 e2e/report.spec.ts 的文件头）。
+        working-directory: frontend
+        run: npm run test:e2e
+
+      - name: 上传截图
+        # 截图是这个 job 的产出之一（作品集里那张报告页就从这儿出），
+        # 而它在 `frontend/e2e/.artifacts/` 里、被 gitignore 掉了。
+        # 不传的话 CI 上跑完这些图就没了，只剩一句"绿了"。
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots
+          path: frontend/e2e/.artifacts/*.png
+          if-no-files-found: warn
+
+  eval:
+    name: 黄金集闸门（mock · 零花费）
+    runs-on: ubuntu-latest
+    needs: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - name: 装依赖
+        run: pip install -e "backend[dev]"
+
+      - name: 闸门
+        # 从仓库根跑：`eval` 是一个包，`run_eval.py` 自己会把 `backend/`
+        # 加进 sys.path。闸门破了会以 1 退出，这一步因此是有效的。
+        run: python -m eval.run_eval --gate --out eval/reports/ci.json
+
+      - name: 上传结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-gate
+          path: eval/reports/ci.json
+          if-no-files-found: warn
+
+  eval-replay:
+    name: 黄金集回放（真实录制 · 零花费）
+    runs-on: ubuntu-latest
+    needs: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - name: 装依赖
+        run: pip install -e "backend[dev]"
+
+      - name: 确认没有 .env（回放不该靠它）
+        # 这一条是护栏，不是仪式。回放在**没有 API key** 的环境里也必须
+        # 跑得起来——它查表，不发请求。哪天有人把录制路径做成"读不到就联网"，
+        # 这里会先炸，而不是等到某个账单日。
+        run: |
+          if [ -f backend/.env ]; then
+            echo "::error::CI 里不该存在 backend/.env"
+            exit 1
+          fi
+
+      - name: 回放闸门
+        # `--baseline` 只**报告**漂移，不阻断（见 run_eval 模块 docstring：
+        # 基线抓的是"慢慢变坏"，单次抖动不该红）。真正会让这一步红的是
+        # 契约违反——那才是要立刻知道的事。计时项不参与漂移比对
+        # （理由见 run_eval 的 DRIFT_EXCLUDED）。
+        #
+        # 录制过期时这一步**会红**，而且报 "没录制，跳过" ×N。
+        # 这是有意的：改了提示词 → cassette key 变化（key 由请求内容决定）
+        # → 那条录制失效。让闸门绿着跳过它，等于把"这套东西现在没有被测"
+        # 说成"这套东西测得挺好"（详见 问题记录 39）。
+        #
+        # **一处没验过的事**：本地的确定性指标连跑三遍逐项相同，
+        # 但换平台（Windows → ubuntu runner）会不会因为并发搜索的完成顺序
+        # 影响证据编号、进而让某条引用解析不到，没有验过。
+        # 若这一步在 CI 上第一次红，先看 `hallucinationRate` / `phantomCitations`
+        # 是不是唯一的破线项——那属于"评测在别的平台上不成立"，
+        # 而不是"代码退步了"，两者的处理方式完全不同。
+        run: |
+          python -m eval.run_eval --replay \
+            --baseline eval/baseline.json \
+            --out eval/reports/ci-replay.json
+
+      - name: 上传结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-replay
+          path: eval/reports/ci-replay.json
+          if-no-files-found: warn
+
+  docs:
+    name: 文档一致性
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - name: 装依赖
+        run: pip install -e "backend[dev]"
+
+      - name: 流水线顺序与 ARCHITECTURE.md 一致
+        # 这条测试是「文档与代码脱节」的永久解药：它解析 docs/ARCHITECTURE.md
+        # 里的 mermaid 块，断言节点顺序等于 `core/pipeline/stages.py` 的常量。
+        # 改了顺序忘了改文档，这里就红——在 CI 里单独列出来，
+        # 是为了让"红叉是文档的事"一眼可见。
+        #
+        # 它同时也跑在 `backend` 那个 job 的 `pytest -q` 里。重复一次是
+        # 故意的：`backend` 那个 job 一红，得点进去看是 800 条里的哪一条；
+        # 这里红了，标题就写着是什么事。
+        working-directory: backend
+        run: pytest -q tests/unit/test_docs_order.py

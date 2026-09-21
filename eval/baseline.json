@@ -1,0 +1,397 @@
+{
+  "at": "2026-09-19T18:09:48",
+  "kind": "replay",
+  "requestedProvider": "mock",
+  "runtimeProviders": {
+    "llm": "deepseek",
+    "search": "bocha",
+    "fetch": "http"
+  },
+  "cassetteMode": "replay",
+  "wallSeconds": 19.4,
+  "ran": 5,
+  "repeat": 1,
+  "aggregate": {
+    "claims": {
+      "min": 11.0,
+      "median": 12.0,
+      "max": 12.0,
+      "reports": 5.0
+    },
+    "verifiedClaims": {
+      "min": 11.0,
+      "median": 12.0,
+      "max": 12.0,
+      "reports": 5.0
+    },
+    "unsupportedClaimRate": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "reports": 5.0,
+      "pooled": 0.0
+    },
+    "hallucinationRate": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "reports": 5.0
+    },
+    "phantomCitations": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "reports": 5.0
+    },
+    "crossValidatedClaims": {
+      "min": 2.0,
+      "median": 5.0,
+      "max": 8.0,
+      "reports": 5.0
+    },
+    "crossValidationRate": {
+      "min": 0.1818,
+      "median": 0.4167,
+      "max": 0.6667,
+      "reports": 5.0,
+      "pooled": 0.4576
+    },
+    "independentDomains": {
+      "min": 36.0,
+      "median": 69.0,
+      "max": 73.0,
+      "reports": 5.0
+    },
+    "evidences": {
+      "min": 58.0,
+      "median": 92.0,
+      "max": 115.0,
+      "reports": 5.0
+    },
+    "degradedEvidences": {
+      "min": 3.0,
+      "median": 6.0,
+      "max": 6.0,
+      "reports": 5.0
+    },
+    "degradedRate": {
+      "min": 0.0348,
+      "median": 0.0577,
+      "max": 0.1034,
+      "reports": 5.0,
+      "pooled": 0.0577
+    },
+    "platformCount": {
+      "min": 3.0,
+      "median": 3.0,
+      "max": 4.0,
+      "reports": 5.0
+    },
+    "dimensionsPlanned": {
+      "min": 4.0,
+      "median": 4.0,
+      "max": 4.0,
+      "reports": 5.0
+    },
+    "dimensionsCovered": {
+      "min": 4.0,
+      "median": 4.0,
+      "max": 4.0,
+      "reports": 5.0
+    },
+    "dimensionCoverage": {
+      "min": 1.0,
+      "median": 1.0,
+      "max": 1.0,
+      "reports": 5.0,
+      "pooled": 1.0
+    },
+    "searchCalls": {
+      "min": 24.0,
+      "median": 32.0,
+      "max": 32.0,
+      "reports": 5.0
+    },
+    "searchErrors": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "reports": 5.0
+    },
+    "rawHits": {
+      "min": 184.0,
+      "median": 258.0,
+      "max": 291.0,
+      "reports": 5.0
+    },
+    "filteredHits": {
+      "min": 42.0,
+      "median": 117.0,
+      "max": 144.0,
+      "reports": 5.0
+    },
+    "fetchedOk": {
+      "min": 6.0,
+      "median": 6.0,
+      "max": 9.0,
+      "reports": 5.0
+    },
+    "fetchedDegraded": {
+      "min": 3.0,
+      "median": 6.0,
+      "max": 6.0,
+      "reports": 5.0
+    },
+    "llmCalls": {
+      "min": 13.0,
+      "median": 19.0,
+      "max": 20.0,
+      "reports": 5.0
+    },
+    "llmOptionalFailures": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "reports": 5.0
+    },
+    "totalCostUsd": {
+      "min": 0.01825,
+      "median": 0.026436,
+      "max": 0.03318,
+      "reports": 5.0
+    },
+    "totalTokens": {
+      "min": 92788.0,
+      "median": 137285.0,
+      "max": 160789.0,
+      "reports": 5.0
+    },
+    "durationMs": {
+      "min": 92.0,
+      "median": 172.0,
+      "max": 266.0,
+      "reports": 5.0
+    },
+    "firstEvidenceMs": {
+      "min": 46.0,
+      "median": 62.0,
+      "max": 94.0,
+      "reports": 5.0
+    },
+    "reworkRounds": {
+      "min": 0.0,
+      "median": 1.0,
+      "max": 1.0,
+      "reports": 5.0
+    },
+    "issues": {
+      "min": 7.0,
+      "median": 9.0,
+      "max": 11.0,
+      "reports": 5.0
+    }
+  },
+  "overview": {
+    "reports": 5,
+    "modes": [
+      "quick"
+    ],
+    "degraded": {
+      "notion-vs-obsidian": [
+        "正文抓取：3/12 条正文抓取失败，这些证据只有搜索摘要",
+        "结构性分析：矩阵/份额/五力/趋势四项中只产出 1 项，图表会偏少",
+        "图表：2/3 张图的数据没有证据链，已不生成（功能维度评分对比、能力雷达图）",
+        "正文抓取：3/12 条正文抓取失败，这些证据只有搜索摘要"
+      ],
+      "dji-mini4-vs-autel-evo": [
+        "正文抓取：6/12 条正文抓取失败，这些证据只有搜索摘要",
+        "结构性分析：矩阵/份额/五力/趋势四项中只产出 1 项，图表会偏少"
+      ],
+      "youzan-vs-weimob": [
+        "需求澄清：自动采用了推荐选项（未人工确认），共 4 项",
+        "正文抓取：6/12 条正文抓取失败，这些证据只有搜索摘要",
+        "正文抓取：6/12 条正文抓取失败，这些证据只有搜索摘要"
+      ],
+      "dewu-vs-shihuo": [
+        "需求澄清：自动采用了推荐选项（未人工确认），共 4 项",
+        "正文抓取：6/12 条正文抓取失败，这些证据只有搜索摘要",
+        "图表：2/3 张图的数据没有证据链，已不生成（功能维度评分对比、能力雷达图）",
+        "正文抓取：6/12 条正文抓取失败，这些证据只有搜索摘要"
+      ],
+      "vague-coffee-market": [
+        "需求澄清：自动采用了推荐选项（未人工确认），共 4 项",
+        "正文抓取：4/12 条正文抓取失败，这些证据只有搜索摘要",
+        "正文抓取：4/12 条正文抓取失败，这些证据只有搜索摘要",
+        "图表：2/3 张图的数据没有证据链，已不生成（功能维度评分对比、能力雷达图）",
+        "报告撰写：1/4 章存在降级（无引用或调用失败）：定价分析"
+      ]
+    },
+    "reworked": [
+      "notion-vs-obsidian",
+      "youzan-vs-weimob",
+      "dewu-vs-shihuo",
+      "vague-coffee-market"
+    ],
+    "qualityGateFailed": [],
+    "totalCostUsd": 0.132614
+  },
+  "perQuery": {
+    "notion-vs-obsidian": {
+      "claims": 12.0,
+      "verifiedClaims": 12.0,
+      "unsupportedClaimRate": 0.0,
+      "hallucinationRate": 0.0,
+      "phantomCitations": 0.0,
+      "crossValidatedClaims": 5.0,
+      "crossValidationRate": 0.4167,
+      "independentDomains": 41.0,
+      "evidences": 64.0,
+      "degradedEvidences": 3.0,
+      "degradedRate": 0.0469,
+      "platformCount": 4.0,
+      "dimensionsPlanned": 4.0,
+      "dimensionsCovered": 4.0,
+      "dimensionCoverage": 1.0,
+      "searchCalls": 26.0,
+      "searchErrors": 0.0,
+      "rawHits": 184.0,
+      "filteredHits": 120.0,
+      "fetchedOk": 9.0,
+      "fetchedDegraded": 3.0,
+      "llmCalls": 19.0,
+      "llmOptionalFailures": 0.0,
+      "totalCostUsd": 0.025591,
+      "totalTokens": 131166.0,
+      "durationMs": 172.0,
+      "firstEvidenceMs": 62.0,
+      "reworkRounds": 1.0,
+      "issues": 7.0
+    },
+    "dji-mini4-vs-autel-evo": {
+      "claims": 11.0,
+      "verifiedClaims": 11.0,
+      "unsupportedClaimRate": 0.0,
+      "hallucinationRate": 0.0,
+      "phantomCitations": 0.0,
+      "crossValidatedClaims": 2.0,
+      "crossValidationRate": 0.1818,
+      "independentDomains": 36.0,
+      "evidences": 58.0,
+      "degradedEvidences": 6.0,
+      "degradedRate": 0.1034,
+      "platformCount": 4.0,
+      "dimensionsPlanned": 4.0,
+      "dimensionsCovered": 4.0,
+      "dimensionCoverage": 1.0,
+      "searchCalls": 24.0,
+      "searchErrors": 0.0,
+      "rawHits": 204.0,
+      "filteredHits": 144.0,
+      "fetchedOk": 6.0,
+      "fetchedDegraded": 6.0,
+      "llmCalls": 13.0,
+      "llmOptionalFailures": 0.0,
+      "totalCostUsd": 0.01825,
+      "totalTokens": 92788.0,
+      "durationMs": 92.0,
+      "firstEvidenceMs": 62.0,
+      "reworkRounds": 0.0,
+      "issues": 11.0
+    },
+    "youzan-vs-weimob": {
+      "claims": 12.0,
+      "verifiedClaims": 12.0,
+      "unsupportedClaimRate": 0.0,
+      "hallucinationRate": 0.0,
+      "phantomCitations": 0.0,
+      "crossValidatedClaims": 5.0,
+      "crossValidationRate": 0.4167,
+      "independentDomains": 73.0,
+      "evidences": 104.0,
+      "degradedEvidences": 6.0,
+      "degradedRate": 0.0577,
+      "platformCount": 3.0,
+      "dimensionsPlanned": 4.0,
+      "dimensionsCovered": 4.0,
+      "dimensionCoverage": 1.0,
+      "searchCalls": 32.0,
+      "searchErrors": 0.0,
+      "rawHits": 258.0,
+      "filteredHits": 42.0,
+      "fetchedOk": 6.0,
+      "fetchedDegraded": 6.0,
+      "llmCalls": 18.0,
+      "llmOptionalFailures": 0.0,
+      "totalCostUsd": 0.026436,
+      "totalTokens": 137285.0,
+      "durationMs": 266.0,
+      "firstEvidenceMs": 94.0,
+      "reworkRounds": 1.0,
+      "issues": 10.0
+    },
+    "dewu-vs-shihuo": {
+      "claims": 12.0,
+      "verifiedClaims": 12.0,
+      "unsupportedClaimRate": 0.0,
+      "hallucinationRate": 0.0,
+      "phantomCitations": 0.0,
+      "crossValidatedClaims": 8.0,
+      "crossValidationRate": 0.6667,
+      "independentDomains": 69.0,
+      "evidences": 92.0,
+      "degradedEvidences": 6.0,
+      "degradedRate": 0.0652,
+      "platformCount": 3.0,
+      "dimensionsPlanned": 4.0,
+      "dimensionsCovered": 4.0,
+      "dimensionCoverage": 1.0,
+      "searchCalls": 32.0,
+      "searchErrors": 0.0,
+      "rawHits": 289.0,
+      "filteredHits": 117.0,
+      "fetchedOk": 6.0,
+      "fetchedDegraded": 6.0,
+      "llmCalls": 20.0,
+      "llmOptionalFailures": 0.0,
+      "totalCostUsd": 0.029157,
+      "totalTokens": 150563.0,
+      "durationMs": 187.0,
+      "firstEvidenceMs": 46.0,
+      "reworkRounds": 1.0,
+      "issues": 7.0
+    },
+    "vague-coffee-market": {
+      "claims": 12.0,
+      "verifiedClaims": 12.0,
+      "unsupportedClaimRate": 0.0,
+      "hallucinationRate": 0.0,
+      "phantomCitations": 0.0,
+      "crossValidatedClaims": 7.0,
+      "crossValidationRate": 0.5833,
+      "independentDomains": 69.0,
+      "evidences": 115.0,
+      "degradedEvidences": 4.0,
+      "degradedRate": 0.0348,
+      "platformCount": 3.0,
+      "dimensionsPlanned": 4.0,
+      "dimensionsCovered": 4.0,
+      "dimensionCoverage": 1.0,
+      "searchCalls": 32.0,
+      "searchErrors": 0.0,
+      "rawHits": 291.0,
+      "filteredHits": 100.0,
+      "fetchedOk": 8.0,
+      "fetchedDegraded": 4.0,
+      "llmCalls": 20.0,
+      "llmOptionalFailures": 0.0,
+      "totalCostUsd": 0.03318,
+      "totalTokens": 160789.0,
+      "durationMs": 171.0,
+      "firstEvidenceMs": 46.0,
+      "reworkRounds": 1.0,
+      "issues": 9.0
+    }
+  },
+  "judges": {},
+  "failures": []
+}
