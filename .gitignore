@@ -1,0 +1,94 @@
+# ---------- 密钥 ----------
+# .env 绝不入库；.env.example 必须入库（它是配置项的文档）。
+.env
+.env.*
+!.env.example
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ---------- Node ----------
+node_modules/
+dist/
+dist-ssr/
+.vite/
+coverage/
+*.local
+
+# ---------- 运行时数据 ----------
+# SQLite 是本地运行时产物，不进版本库。
+# 还需要一并忽略 -wal / -shm：WAL 模式下它们是数据库的一部分，只删 .db 会留下脏状态。
+backend/data/*.db
+backend/data/*.db-wal
+backend/data/*.db-shm
+backend/data/*.sqlite3
+
+# 录制回放：cassette 是要入库的（CI 靠它零成本跑通），
+# 但手动跑流水线产出的临时报告不入库。
+backend/out/
+eval/reports/*.json
+!eval/reports/.gitkeep
+
+# `run_pipeline_cli --out` 落在 data/reports/ 下的报告样例，与 backend/out/ 同理。
+#
+# 这一条是补的，补的时机说明了一件事：**最初那份 .gitignore 是按"我以为产物
+# 会落在哪"写的，不是按"它实际落在哪"写的**——`--out` 的默认值后来改到了
+# 这里，而 .gitignore 没跟着动。所以它一直没被发现：反正只有 13 个文件、
+# 4 MB，`git status` 看着也很正常。
+#
+# 顺带一提，那 13 份是**修问题 54 之前**跑出来的，`brands` 里还带着
+# `Notion 与 Obsidian` 这个"把调研对象当品牌"的形状。就算它有价值，
+# 也不该以"一份没人知道是哪个版本产出的运行时文件"的形式入库。
+backend/data/reports/
+
+# 压测产出：**一份都不入库**，只保留目录本身。
+#
+# 两个方向都想过：CSV 里是 `项目总结.md` 要引用的数字，看着像"证据"，
+# 但它是**上一轮的**证据——压测的对象是这台机器上的库，
+# 换台机器、清一次库、`create` 场景再跑一次，同样的命令就出不同的数。
+# 入库的那份会慢慢变成"一份没人能复现的历史读数"，
+# 而读它的人无从判断它对应的是哪个版本的代码。
+#
+# 所以策略是：**读数写进文档，原始产出不入库**，
+# `python -m locust -f loadtest/locustfile.py ...` 随时可以重出一份。
+# 那些 1 MB 一个的 HTML 报告尤其没有入库的理由。
+loadtest/reports/*
+!loadtest/reports/.gitkeep
+
+# ---------- Playwright ----------
+# 失败时的 trace / 截图、以及那条冒烟测试存的整页截图。
+# 截图是**给人看的产出**（作品集里那张报告页截图就从这儿出），
+# 但它是每次跑都会变的二进制，入库只会在 diff 里堆噪音。
+frontend/e2e/.artifacts/
+frontend/test-results/
+frontend/playwright-report/
+
+# ---------- 反证脚本的工作目录 ----------
+# `falsify_*.py` 开跑前把被改文件的原样存一份在这里，用来判断
+# "现场干不干净"和还原。它是本地产物，不入库。
+# 特别注意别把它挪进 frontend/ 或 backend/ 里：vitest 默认的
+# include/exclude 会把它当测试收走（实测过一次，见问题记录 22）。
+.falsify-baseline/
+
+# ---------- 本地开发环境 ----------
+# scripts/dev.* 把后台服务的 PID 和日志放这儿。它是**本机状态**：
+# PID 换一台机器就没有意义，日志每次都变。入库只会制造冲突。
+.dev/
+
+# ---------- 编辑器 / 系统 ----------
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,162 @@
+{
+  "_comment": [
+    "任务状态与任务快照的**唯一真相源**。两份代码都读它：",
+    "  backend/tests/contract/test_task_states.py   —— 断言 runner.py 的常量与 snapshot() 的真实键集合",
+    "  frontend/src/types/task.contract.test.ts     —— 断言 domain.ts 的联合类型与手写样例对象",
+    "",
+    "为什么需要它：这份契约曾经漂移过，而且没有任何东西报错。",
+    "前端 domain.ts 写的 TaskStatus 是 'created' | 'clarifying' | 'running' | 'done' | 'failed'，",
+    "而后端实际会写进任务行的是 pending / running / awaiting_clarify / done / failed / cancelled。",
+    "两边只有三个对得上。后果不是编译错误，也不是运行时异常——",
+    "而是澄清页永远不跳（`status === 'clarifying'` 恒为假）、",
+    "取消掉的任务在列表里显示成一个空状态标签。",
+    "SSE 事件有契约文件守着，任务状态这一半当时没有，于是它就是那一半里烂掉的地方。",
+    "",
+    "为什么单独一个文件而不是塞进 sse_events.json：那份契约描述的是**帧**，",
+    "而任务状态同时出现在帧以外的地方（REST 快照、任务列表、DB 里那一行）。",
+    "把只在一半场景里成立的契约放进描述帧的文件里，会让读它的人以为",
+    "快照也得遵守帧的规则（比如以为快照一定有 seq）。"
+  ],
+  "version": 1,
+
+  "statuses": {
+    "_comment": [
+      "任务行可能出现的全部状态。**必填集合是精确的**——多一个少一个都算红。",
+      "",
+      "pending 是建行时的初始值，它在流水线启动前存在（`POST /api/tasks`",
+      "先写行、再 ensure_runner、再 begin），所以它是一个真实可见的状态，",
+      "而不是一个瞬间。"
+    ],
+    "required": ["pending", "running", "awaiting_clarify", "done", "failed", "cancelled"],
+
+    "terminal": {
+      "_comment": [
+        "终态 = 任务不会再变化了。`ensure_runner` 靠它决定「回放历史」还是「启动流水线」，",
+        "所以这个集合的成员多一个或少一个都有具体后果。",
+        "",
+        "**awaiting_clarify 刻意不在里面。** 它不是终态，任务马上还要接着跑。",
+        "放进终态的那个错误很隐蔽：`ensure_runner` 看到终态会走 recover()（只回放、不启动），",
+        "于是用户答完澄清、请求继续，流水线却再也不会动了——",
+        "而工作台上显示的历史完整、状态正常。"
+      ],
+      "values": ["done", "failed", "cancelled"]
+    },
+
+    "awaiting": {
+      "_comment": "等用户回答澄清问题的那一个。单独列出来是因为前端要靠它决定路由去澄清页还是工作台。",
+      "value": "awaiting_clarify"
+    }
+  },
+
+  "snapshot": {
+    "_comment": [
+      "任务快照。**有两个生产者，它们的键集合不一样**，这是这个文件里最值得记住的一件事：",
+      "",
+      "  runner.snapshot()        —— 内存里有 runner 时（最常见）",
+      "  load_task() 的兜底分支  —— 进程重启之后，只有库里的那一行",
+      "",
+      "required 是两者**都有**的键。optional 是只有其中一个会给的键。",
+      "把它们分开写出来，是因为「重启后打开的页面」和「正常打开的页面」",
+      "拿到的形状不同，而前端如果无条件读 `snapshot.elapsedMs`，",
+      "在重启后的页面上会显示 NaN——一个看起来像渲染 bug、其实是契约问题的数字。",
+      "",
+      "前端读到 optional 缺失时必须自己兜底，不能假设它一定在。"
+    ],
+    "required": [
+      "taskId",
+      "status",
+      "stage",
+      "stageLabel",
+      "progress",
+      "reportId",
+      "error",
+      "nodes",
+      "lastSeq",
+      "needClarify",
+      "awaitingClarify",
+      "clarifyQuestions",
+      "subject",
+      "brands"
+    ],
+    "optional": {
+      "_comment": [
+        "elapsedMs 只有 runner.snapshot() 给：它是从 time.monotonic() 和启动时刻算的，",
+        "而进程重启之后那个启动时刻已经不存在了——编一个出来比缺这个字段更坏。",
+        "",
+        "evidenceCount 只有兜底分支给：它是从证据表数出来的，",
+        "而内存里的那份要数就得查库，工作台在跑到一半时每刷新一次都查一次库不值当。"
+      ],
+      "keys": ["elapsedMs", "evidenceCount"],
+      "producers": {
+        "elapsedMs": "runner.snapshot()",
+        "evidenceCount": "load_task() 兜底分支"
+      }
+    },
+    "types": {
+      "taskId": "string",
+      "status": "TaskStatus",
+      "stage": "StageId",
+      "stageLabel": "string",
+      "progress": "number  —— 0–1，整个任务的进度，不是阶段内的",
+      "reportId": "string  —— 空串表示还没有报告",
+      "error": "string  —— 空串表示没有错误",
+      "nodes": "Partial<Record<StageId, StageState>>  —— 兜底分支给 {}：那里无从得知，全 pending 会谎称「还没开始」",
+      "lastSeq": "number  —— journal 的水位。前端重连时拿它当 Last-Event-ID",
+      "needClarify": "boolean  —— 事实：这个需求信息不够，生成过问题",
+      "awaitingClarify": "boolean  —— 状态：现在正停着等回答。**与上一个不是一回事**",
+      "clarifyQuestions": "ClarifyQuestion[]",
+      "subject": "string",
+      "brands": "string[]",
+      "elapsedMs": "number（可选）",
+      "evidenceCount": "number（可选）"
+    },
+    "need_vs_awaiting": [
+      "这两个字段含义不同，混用会在一个很常见的场景上出问题。",
+      "",
+      "needClarify     事实——intake 判定信息不够并生成了问题。",
+      "                一个**早就跑完**的任务这个值也可能是 true（它当时确实问了）。",
+      "awaitingClarify 状态——现在正停着等回答。",
+      "",
+      "判断「要不要跳澄清页」只能看 awaitingClarify。看 needClarify 的话，",
+      "一个上周跑完的任务会在每次打开时把用户拉回澄清页，",
+      "而那一页上没有任何东西可做——问题早就答过了。"
+    ],
+    "extra_from_post": {
+      "_comment": "POST /api/tasks 的响应在快照之外多给两个键，它不返回快照类型。",
+      "keys": ["query", "mode"]
+    }
+  },
+
+  "stages": {
+    "_comment": [
+      "阶段的顺序与终态。**运行时的真相源是 `/api/pipeline/stages`**（前端 DAG 读它，",
+      "不自己写一份列表）——这里放一份是为了让 TypeScript 的 StageId 联合类型",
+      "有一个能被测试比对的对象。少了这一半，后端加一个阶段、前端漏加，",
+      "`nodes` 里就会多出一个联合类型覆盖不到的键，而读它的 switch 会静默走 default。"
+    ],
+    "order": ["intake", "orchestrator", "collect", "analyze", "audit", "rework", "write"],
+    "terminal": "done",
+    "optional": ["rework"],
+    "optional_note": [
+      "rework 是可选阶段：不需要返工的那次运行完全不经过它。",
+      "前端画 DAG 时它要在，但要能显示成「没走这一步」而不是「卡住了」——",
+      "这两者在界面上如果长得一样，一次顺利完成的调研看起来就像出了故障。"
+    ]
+  },
+
+  "stage_states": {
+    "_comment": [
+      "DAG 节点自己的状态。**与任务状态是两套东西**，不要合并：",
+      "任务状态回答「这个任务现在怎么样」，节点状态回答「这一个阶段现在怎么样」。",
+      "一个 running 的任务，它的 collect 节点可能 running、analyze 节点还是 pending。"
+    ],
+    "required": ["pending", "running", "done", "degraded", "error"],
+    "notes": {
+      "degraded": [
+        "跑完了但不完整。它必须是独立的一个值——并进 done 的话，",
+        "一个降级的阶段在 DAG 上看起来和完全正常的一模一样，",
+        "而「降级必须可见」是这个项目的一条硬规矩。"
+      ]
+    }
+  }
+}

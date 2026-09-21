@@ -1,0 +1,219 @@
+{
+  "_comment": [
+    "SSE 事件契约的**唯一真相源**。两份代码都读这个文件：",
+    "  backend/tests/contract/test_sse_contract.py  —— 跑一遍 Mock 流水线，断言真实推出去的事件",
+    "                                                  与这里声明的键集合**完全一致**",
+    "  frontend/src/types/events.contract.test.ts    —— 断言 events.ts 手写的样例对象与这里一致",
+    "任何一边改了字段名或增删了字段，都会在那边红，而不是等到浏览器里少显示一块内容。",
+    "",
+    "为什么需要它：契约漂移的表现是**静默的**。后端把 node_update 的 `node` 改名成 `stage`，",
+    "前端读 `e.node` 得到 undefined，DAG 于是画不出任何节点——不报错、不抛异常，",
+    "只是页面空着。而这类改动在 review 里看起来完全无害。",
+    "",
+    "摊平还是嵌套：一条规则",
+    "------------------------",
+    "事件体本身**摊平**（seq/type/taskId/createdAt 直接在最外层，不套一层 payload），",
+    "因为 TypeScript 要能写出真正按 type 判别的联合类型；套一层 payload 的话",
+    "payload 的类型只能是 unknown，类型安全当场失效。",
+    "",
+    "但**携带领域对象的那六种事件要把对象嵌在自己的键下面**（thought/evidence/span/",
+    "chart/image/message）。两个理由，第二个是硬性的：",
+    "  1. 前端本来就有这些对象的接口（Thought/Evidence/TraceSpan…）。同一个东西",
+    "     在事件里摊平、在报告里嵌套，会出现两份描述同一个对象的类型。",
+    "  2. **摊平在有些情况下根本做不到**。信封的四个键是保留的——载荷里再出现",
+    "     `taskId` 或 `seq` 会被 publish() 直接抛错。而 TraceSpan 恰好两个都要",
+    "     （跨任务读取时要 taskId，决策回放排序要 seq）。摊平没有位置放它们。",
+    "",
+    "于是剩下五种纯粹是「事件自身的事实」的（node_update/progress/report_ready/",
+    "done/error）摊平。这个划分不是风格偏好，是契约能不能表达的问题。"
+  ],
+  "version": 1,
+
+  "envelope": {
+    "_comment": "每个事件都有，由 journal 统一填。载荷里出现这些键会被 publish() 抛错拦住。",
+    "required": ["seq", "type", "taskId", "createdAt"],
+    "types": {
+      "seq": "number  —— 任务内从 1 递增。前端靠 seq <= lastSeq 去重",
+      "type": "PipelineEventType",
+      "taskId": "string",
+      "createdAt": "string  —— ISO 8601 UTC，毫秒精度"
+    }
+  },
+
+  "events": {
+    "node_update": {
+      "carries": null,
+      "shape": "flat",
+      "required": ["stage", "label", "status", "progress", "round"],
+      "optional": ["elapsedMs", "detail"],
+      "notes": [
+        "驱动工作台的 DAG。一个阶段至少两条：running 一条、终态一条。",
+        "status 取值 pending|running|done|degraded|error —— 与 RunnerState.nodes 的",
+        "取值同一套，因为接口返回的节点状态与事件里的必须对得上。",
+        "degraded 是**必须有的第三个终态**：这一阶段跑完了但结果不完整。",
+        "把它并进 done 会让降级的阶段在 DAG 上看起来一切正常。",
+        "progress 是 0–1 的**任务整体**进度，不是阶段内进度；只增不减。",
+        "round 是返工轮次，首次执行是 0 —— DAG 上要显示「采集（第 2 轮）」。",
+        "detail 是阶段自己的产出摘要（章数、论点数、问题数…），刻意是自由 dict：",
+        "强行统一 schema 只会得到一堆恒为空的字段。"
+      ]
+    },
+    "progress": {
+      "carries": null,
+      "shape": "flat",
+      "required": ["stage", "progress", "message", "tokens", "costUsd"],
+      "notes": [
+        "阶段内进度，用于进度条下方的文案与实时成本表。",
+        "tokens/costUsd 是**累计值**不是增量：增量让前端必须自己求和，",
+        "而任何一次丢事件都会让那个和永久偏小。",
+        "字段叫 progress 不叫 percent —— 它是 0–1。名为 percent 而值是 0–1 的字段",
+        "会让每个消费点都必须去查一遍它到底是哪个刻度。"
+      ]
+    },
+    "thought": {
+      "carries": "Thought",
+      "shape": "nested",
+      "required": ["thought"],
+      "notes": [
+        "专家思维流。事件里的对象与报告 thoughts[] 里的是**同一份**，",
+        "所以它有自己的 id 和自己的时间戳（报告里那份不经过信封）。"
+      ]
+    },
+    "message": {
+      "carries": "MessageSummary",
+      "shape": "nested",
+      "required": ["message"],
+      "notes": [
+        "专家之间传了一条消息。事件里带的是**投影**不是完整 Envelope：",
+        "信封的 payload 可能是一整包证据，给每个订阅者推全量是浪费。",
+        "名字因此不叫 envelope —— 它不是 Envelope，是它的摘要。",
+        "报告里的 messages[] 才是完整的 Envelope。"
+      ]
+    },
+    "evidence": {
+      "carries": "Evidence",
+      "shape": "nested",
+      "required": ["evidence"]
+    },
+    "trace": {
+      "carries": "TraceSpan",
+      "shape": "nested",
+      "required": ["span"],
+      "notes": [
+        "一次 provider 调用结束（不是开始）时推。开始时推的话，",
+        "最有用的两个字段——耗时与成本——都还不存在。",
+        "span 的先后顺序编码在 spanId 里（SP-00007），不另外带 seq：",
+        "两个字段描述同一件事时，它们迟早会不一致。"
+      ]
+    },
+    "chart": {
+      "carries": "ChartSpec",
+      "shape": "nested",
+      "required": ["chart"],
+      "notes": [
+        "图表也是论点，所以每个 spec 都带 evidenceIds（铁律 1）。",
+        "spec 里是 ECharts 的数据，刻意不展开到事件顶层：",
+        "图表类型的增减不该改动线上契约。"
+      ]
+    },
+    "image": {
+      "carries": "GalleryImage",
+      "shape": "nested",
+      "required": ["image"]
+    },
+    "report_ready": {
+      "carries": null,
+      "shape": "flat",
+      "required": ["reportId", "query", "subject", "sectionCount", "evidenceCount", "problems", "degraded"],
+      "notes": [
+        "报告已落库。problems 非空表示出库校验发现了问题——报告仍然落库了，",
+        "但工作台必须把它显示出来。",
+        "**没有 title**：报告此刻还没有「标题」这个概念（ReportRecord 里没有这一列）。",
+        "在事件层现编一个标题，等于给「这份报告叫什么」造出第二个真相源。",
+        "**阶段 7 已定，结论是继续不带。** 报告页（`ReportHeader.tsx`）直接读",
+        "报告正文的 `subject`，没有时退回 `query`；两者不同则把 `query` 作为副标题",
+        "显示出来。所以「这份报告叫什么」的真相源仍然只有报告正文一个——",
+        "当时说「届时再加进契约」，而届时的结论是**不加**。",
+        "quality / completeness 也不在这里：它们随 done.metrics 与报告正文走，",
+        "在这里再带一份就是同一批数字有两份。"
+      ]
+    },
+    "done": {
+      "carries": null,
+      "shape": "flat",
+      "required": ["reportId", "metrics", "degraded", "problems"],
+      "notes": [
+        "任务终态，流的最后一条。",
+        "带整份 metrics：工作台在这个时刻要渲染成本面板与四条铁律的指标，",
+        "让它再发一次请求去拿，就是在一个已经拿到数据的时刻多花一个往返。",
+        "elapsedMs / reworkRounds / qualityPassed 不再单独带 —— 三者都在 metrics 里。"
+      ]
+    },
+    "error": {
+      "carries": null,
+      "shape": "flat",
+      "required": ["stage", "message", "kind", "retryable"],
+      "notes": [
+        "kind 是异常类名，用来区分「可重试的基础设施问题」与「代码 bug」。",
+        "retryable 是那个区分本身：true 表示「等会儿可能自己会好」（限流、连接抖动），",
+        "false 表示「得有人去看」（密钥错了、代码 bug）。非 ProviderError 一律 false——",
+        "`is_retryable` 取不着就返回 false，因为猜错的那个方向是让人干等一个不会成功的重试。",
+        "它曾经是挂账的：契约里放一个永远为 false 的字段，前端就会为它写一段永远",
+        "不执行、也永远测不到的分支。等 `ProviderError.retryable` 落地之后才加进来。"
+      ]
+    }
+  },
+
+  "domain": {
+    "_comment": [
+      "被事件携带的六个领域对象的键集合。这里只守**顶层**：",
+      "再往深处递归（credibilityBreakdown[0] 之类）会让契约文件变成一份",
+      "手写的 JSON Schema，而它的维护成本会很快超过它能防住的问题。"
+    ],
+    "Thought": [
+      "id", "expertId", "expertName", "roleTitle", "level", "stage", "text", "at"
+    ],
+    "MessageSummary": [
+      "from", "to", "kind", "stage", "round", "summary", "issueCount"
+    ],
+    "Evidence": [
+      "evidenceId", "url", "title", "snippet", "fullText", "brand", "sourceType",
+      "siteName", "publishedAt", "capturedAt", "matchedDimensions", "query",
+      "provider", "rank", "credibility", "credibilityBreakdown", "degraded", "images"
+    ],
+    "TraceSpan": [
+      "spanId", "parentId", "kind", "name", "purpose", "provider", "model",
+      "startedAt", "endedAt", "durationMs", "promptTokens", "completionTokens",
+      "totalTokens", "costUsd", "cachedPromptTokens", "status", "error", "detail"
+    ],
+    "ChartSpec": ["chartId", "kind", "title", "evidenceIds", "spec"],
+    "GalleryImage": ["url", "alt", "evidenceId", "brand", "sourceUrl", "siteName"]
+  },
+
+  "domain_notes": {
+    "Evidence": [
+      "**没有 domain 字段**，尽管「独立域名数」是头条指标。",
+      "主机名的判据（子域算独立、www 去掉）写在 core/evidence/sourcetypes.py 的",
+      "independent_domain 里，有明确的已知代价。在前端用 new URL().hostname",
+      "重写一遍那条规则，会让报告页上的域名数与指标里的对不上。",
+      "需要的那个**数**由 metrics.independentDomains 提供；需要逐条的主机名时",
+      "由接口补，不在事件里带。",
+      "sourceType 的取值见 core/evidence/sourcetypes.py，前端 SourceType 与它一一对应。"
+    ],
+    "TraceSpan": [
+      "**没有 taskId / seq**。事件携带时两者都在信封里；单独读 span 时",
+      "taskId 来自查询路径参数（`GET /api/tasks/{id}/trace`）。加进来会与信封里那份重复。",
+      "**`GET /api/reports/{id}/trace` 这个别名刻意没做**（阶段 8 的决定）：",
+      "`GET /api/reports/{id}` 已经返回 `taskId`，再开一条路径去读同一批 span",
+      "就是同一份数据有两个入口——本项目反复在防的就是这个。",
+      "报告页要回放时，先读报告拿 `taskId`，再按上面的路径读 span。",
+      "purpose 是埋点自己填的用途（analyze_claims / 采集第 3 个角度…），",
+      "name 是被观测对象的名称（函数名 / 查询词）。两者不同：一个回答「在干什么」，",
+      "一个回答「干的是哪一件」。",
+      "cachedPromptTokens 是 promptTokens 的**子集**（命中前缀缓存的那部分），",
+      "不是额外的一批 token。之所以要带出来：命中价与未命中价差 50 倍，",
+      "只看 costUsd 一个数，「这份报告很便宜」和「定价表配错了」在界面上长得一样。",
+      "不区分缓存的 provider 恒为 0，此时它不携带任何信息。"
+    ]
+  }
+}

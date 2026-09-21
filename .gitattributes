@@ -1,0 +1,33 @@
+# 换行符统一成 LF，**检出时也是 LF**。
+#
+# 这不是预先想到的，是 `git add -A` 时那几行 warning 逼出来的：
+#
+#     warning: in the working copy of 'scripts/dev.sh', LF will be replaced by CRLF
+#     warning: in the working copy of '问题记录.md', LF will be replaced by CRLF
+#
+# 本机全局 `core.autocrlf=true`，而仓库里没有 `.gitattributes`，于是
+# **入库的是 LF、检出的却会是 CRLF**。三份东西会被这一条弄坏：
+#
+# 1. `scripts/dev.sh` / `stop.sh` —— CRLF 的 shebang 在 Git Bash 下是
+#    `#!/usr/bin/env bash\r`，直接报 `bad interpreter`。而 README 与
+#    `开发文档.md` 里写的启动方式就是 `bash scripts/dev.sh`：
+#    **作者本机跑得通（工作区还是 LF），克隆的人跑不通。**
+#    这类"只在别人机器上坏"的故障，自己怎么试都试不出来。
+# 2. 六份中文 `.md` —— 整个文件每个字节都变，`git diff` 于是一整篇全红，
+#    看不出真正改了哪句。这个仓库里有好几处守卫是靠读 diff 生效的。
+# 3. `*.jsonl` 的 cassette —— 逐行 JSON，混进 `\r` 会让行尾多一个字节，
+#    而 cassette 的命中判据是内容哈希（`providers/cassette.py`），
+#    换行一变，**录好的带子全部 miss**。
+#
+# 所以这里不用 `text=auto` 那种"按平台自动"的写法，直接钉死 `eol=lf`：
+# 一个仓库里只有一种换行，跨平台行为才可预测。
+
+* text=auto eol=lf
+
+# 二进制：别让 git 去找文本差异，也别做任何换行转换。
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.db binary

@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xm3-backend"
+version = "0.1.0"
+description = "xm3 · 多 Agent 竞品分析系统 - 后端"
+readme = "../README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+# 依赖保持最小：每一个都必须有实际引用点。
+# 增加依赖前先问「它解决了什么别人解决不了的问题」，答不上来就不加。
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "httpx>=0.27",
+    "openai>=1.54",          # 仅作为 OpenAI 兼容协议的客户端，不代表只支持 OpenAI
+    "python-dotenv>=1.0",    # 把 .env 灌进 os.environ，供按约定查凭据
+    "trafilatura>=1.12",     # 正文抽取
+    "beautifulsoup4>=4.12",  # 正文抽取失败时的兜底
+    "lxml>=5.3",
+    "PyYAML>=6.0",           # 专家名册 seed
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6.0",
+    "ruff>=0.7",
+    "mypy>=1.13",
+    "locust>=2.32",          # 压测
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# `".."` 是仓库根，为的是让 `import eval`（评测层）在测试里可用。
+# 这一条不是可选项：`eval/run_eval.py` 是**唯一**决定"这套东西算不算合格"
+# 的地方，而它自己出过两次错（一个永远为假的判断、一句印错的 provider），
+# 两次都是靠人肉看输出发现的。一个不被测试的裁判，绿得再好看也只是好看。
+# "." 必须排在前面，否则 `scripts` 会解析到仓库根那个而不是 `backend/scripts`。
+pythonpath = [".", ".."]
+asyncio_mode = "auto"
+# 默认排除 live 用例：联网且花钱的测试必须显式开启（pytest -m live）。
+# 这条加上 CASSETTE_MODE 的默认值，保证「跑测试 = 零成本」。
+addopts = "-q -m 'not live'"
+markers = [
+    "live: 需要真实调用外部 API，默认不跑",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+ignore_missing_imports = true
