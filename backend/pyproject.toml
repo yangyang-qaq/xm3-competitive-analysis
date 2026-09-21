@@ -6,7 +6,20 @@ build-backend = "setuptools.build_meta"
 name = "xm3-backend"
 version = "0.1.0"
 description = "xm3 · 多 Agent 竞品分析系统 - 后端"
-readme = "../README.md"
+# 这里**没有** `readme`。它原来是 `readme = "../README.md"`，而那指向了
+# 项目目录之外——setuptools 会直接拒绝：
+#
+#     DistutilsOptionError: Cannot access '.../backend/../README.md'
+#     (or anything outside '.../backend')
+#
+# 这个字段活了很久是因为**它只在"重新安装"时才被求值**：本机那份
+# `xm3-backend` 早就是用当时那版 setuptools 装好的（可编辑安装，
+# 之后没人再装一遍），于是 `pip install -e` 那条路一直没被走过。
+# 直到 CI 上每次都从零装一次——四个 job 全部死在这一步（见问题 56）。
+#
+# 修法不是绕过去（写个 `backend/README.md` 复制一份、或者内联一段文字），
+# 而是**把这个字段去掉**：这个包不发布到 PyPI，`pip install -e` 要的只是元数据，
+# 而"长描述"这件事整个仓库只有一份 README 说得清，它就该在仓库根。
 requires-python = ">=3.11"
 license = { text = "MIT" }
 

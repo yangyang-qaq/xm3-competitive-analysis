@@ -8,6 +8,11 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+# `build/` 是 setuptools 打包的中间产物（`pip install -e` / `pip wheel` 都会生成）。
+# 这一条和上面那条 `backend/data/reports/` 是同一个毛病：**按"我以为产物会落在哪"
+# 写的，不是按"它实际落在哪"写的**。区别是那份是运行时报告，这份是打包副本——
+# 里面是整个 `app/` 的一份拷贝，入库等于把源码存两遍，而且它跟源码必然漂移。
+build/
 .venv/
 venv/
 .pytest_cache/
